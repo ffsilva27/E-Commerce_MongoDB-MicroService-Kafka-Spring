@@ -1,12 +1,12 @@
 # :man_technologist: Curso Web Full Stack - Let's Code :man_student:
 
-## :rocket: Projeto Módulo 10 - Tópicos Avançados (Micro Serviço | Mensageria-Kafka | BD-PostgreSQL) 
+## :rocket: Projeto Módulo 10.2 - Tópicos Avançados (Micro Serviço | Mensageria-Kafka | MongoDB) 
 
 O módulo possibilitou desenvolvermos uma aplicação utilizando a arquitetura de micro serviços e serviço de mensageria(Kafka), além de apliarmos nossos conhecimentos
-quanto ao padrão de arquitetura REST, as funcionalidades do Spring data JPA, MVC e Security e o banco de dados relacional(PostgreSQL).
+quanto ao padrão de arquitetura REST, as funcionalidades do Spring data JPA, MVC e Security e o banco de dados não relacional(MongoDB).
 
 
-Obs.: Para o correto funcionamento, rode o script de criação das tabelas do BD(CreateDataBase.txt), os 03 micro serviços(User, Compra e Produto) e o kafka precisam estar em execução.
+Obs.: Para o correto funcionamento, os 03 micro serviços(User, Compra e Produto) e o kafka precisam estar em execução.
 
 ___________________________________________________________________________________________________________________________________________________________________
 
@@ -30,14 +30,14 @@ Na API implementamos:
  - Arquitetura de micro serviço;
  - Serviço de mensageria(Kafka); 
  - Autenticação de rotas;
- - Banco de dados relacional.
+ - Banco de dados não relacional.
 ___________________________________________________________________________________________________________________________________________________________________
 
 ### :chains: Tecnologias
 - Java
 - Spring (WebFlux | Data JPA | Security | MVC)
 - Kafka
-- Banco de dados PostgreSQL
+- Banco de dados MongoDB
 - Lombok
 - Maven
 
@@ -248,5 +248,4 @@ Obs.: Para obtenção das informações de compra sobre um cliente específico, 
 ## :man_technologist: Desenvolvedores<br>
 [Filipe Silva](https://github.com/ffsilva27) , 
 [Felipe Garé](https://github.com/FelipeRodriguesGare) ,  
-[Vitor Zillig](https://github.com/VitorZillig) ,
-[Samuel Bruing](https://github.com/sgbruing) .
+[Vitor Zillig](https://github.com/VitorZillig) .
