@@ -1,11 +1,21 @@
 package br.com.letscode.produto.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+import java.util.Arrays;
+import java.util.List;
+
+@Getter @Setter
 public class ErroMsg {
-    private String msg;
+    private List<String> msg;
+
+    public ErroMsg(String msg) {
+        this.msg = Arrays.asList(msg);
+    }
+
+    public ErroMsg(List<String> msg){
+        this.msg = msg;
+    }
+
 }
