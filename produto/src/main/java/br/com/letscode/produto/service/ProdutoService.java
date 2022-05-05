@@ -72,14 +72,12 @@ public class ProdutoService {
         return  prefixo + sufixo;
     }
 
-    public void updateQuantity(Map<String, Integer> produtos) throws BadRequest, NotFound {
-        for (Map.Entry<String, Integer> entry : produtos.entrySet()) {
-            Produto produto = produtoRepository.findByCodigo(entry.getKey()).orElseThrow(() -> new NotFound("Produto não encontrado"));
-            if(produto.getQtde_disponivel()< entry.getValue()){
-                throw new BadRequest("Qtde insuficiente. Não possuimos estoque suficiente do " + entry.getValue());
+    public void updateQuantity(Map.Entry<String, Integer> produtoRecebido) throws BadRequest, NotFound {
+            Produto produto = produtoRepository.findByCodigo(produtoRecebido.getKey()).orElseThrow(() -> new NotFound("Produto não encontrado"));
+            if(produto.getQtde_disponivel()< produtoRecebido.getValue()) {
+                throw new BadRequest("Qtde insuficiente. Não possuimos estoque suficiente do " + produtoRecebido.getValue());
             }
-            produto.setQtde_disponivel(produto.getQtde_disponivel() - entry.getValue());
+            produto.setQtde_disponivel(produto.getQtde_disponivel() - produtoRecebido.getValue());
             produtoRepository.save(produto);
         }
     }
-}
