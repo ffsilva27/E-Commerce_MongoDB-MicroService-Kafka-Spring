@@ -5,7 +5,6 @@ import br.com.letscode.compra.dto.KafkaDTO;
 import br.com.letscode.compra.exceptions.BadRequest;
 import br.com.letscode.compra.model.Compra;
 import br.com.letscode.compra.model.Produto;
-import br.com.letscode.compra.repository.CompraProdutoRepository;
 import br.com.letscode.compra.repository.CompraRepository;
 import br.com.letscode.compra.service.ProdutoService;
 import lombok.RequiredArgsConstructor;

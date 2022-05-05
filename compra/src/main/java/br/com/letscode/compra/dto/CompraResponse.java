@@ -1,6 +1,7 @@
 package br.com.letscode.compra.dto;
 
 import br.com.letscode.compra.model.Compra;
+import br.com.letscode.compra.model.Produto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ public class CompraResponse {
     private String cpf_cliente;
     private Double valor_total_compra;
     private String status;
-    private List<CompraProdutoResponse> produtos = new ArrayList<>();
+    private List<Produto> produtos = new ArrayList<>();
 
     public static CompraResponse convert(Compra compra){
         CompraResponse compraReturn = new CompraResponse();
@@ -26,7 +27,7 @@ public class CompraResponse {
         compraReturn.setCpf_cliente(compra.getCpf());
         compraReturn.setValor_total_compra(compra.getValor_total_compra());
         compraReturn.setStatus(compra.getStatus());
-        compraReturn.getProdutos().addAll(compra.getProdutos().stream().map(CompraProdutoResponse::convert).collect(Collectors.toList()));
+        compraReturn.getProdutos().addAll(compra.getProdutos());
         return compraReturn;
     }
 

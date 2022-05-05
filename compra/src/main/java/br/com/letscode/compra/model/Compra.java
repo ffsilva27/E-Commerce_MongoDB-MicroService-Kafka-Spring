@@ -1,6 +1,8 @@
 package br.com.letscode.compra.model;
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,26 +14,26 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "compra")
+@Document(collection = "compra")
 public class Compra {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
 
-    @Column(name = "data_compra")
+//    @Column(name = "data_compra")
     private LocalDateTime data_compra;
 
-    @Column(name = "cpf_cliente")
+//    @Column(name = "cpf_cliente")
     private String cpf;
 
-    @Column(name = "valor_total_compra")
+//    @Column(name = "valor_total_compra")
     private Double valor_total_compra;
 
-    @Column(name = "status")
+//    @Column(name = "status")
     private String status;
 
-    @OneToMany(mappedBy = "compra")
-    private List<CompraProduto> produtos =  new ArrayList<>();
+//    @OneToMany(mappedBy = "compra")
+    private List<ProdutoComprado> produtos =  new ArrayList<>();
 
 }

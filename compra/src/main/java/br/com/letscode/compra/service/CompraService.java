@@ -6,7 +6,6 @@ import br.com.letscode.compra.dto.KafkaDTO;
 import br.com.letscode.compra.exceptions.BadRequest;
 import br.com.letscode.compra.kafka.SendKafkaMessage;
 import br.com.letscode.compra.model.*;
-import br.com.letscode.compra.repository.CompraProdutoRepository;
 import br.com.letscode.compra.repository.CompraRepository;
 import br.com.letscode.compra.repository.specification.CompraSpecification;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +13,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
+import java.util.UUID;
 
 
 @RequiredArgsConstructor
@@ -26,7 +23,7 @@ import java.util.Optional;
 public class CompraService {
 
     private final CompraRepository compraRepository;
-    private final CompraProdutoRepository compraProdutoRepository;
+//    private final CompraProdutoRepository compraProdutoRepository;
     private final SendKafkaMessage sendKafkaMessage;
     private final ProdutoService produtoService;
 
@@ -36,7 +33,7 @@ public class CompraService {
             specification = Specification.where(CompraSpecification.filterOneByCpf(cpf));
         }
         return compraRepository
-                .findAll(specification, pageable)
+                .findAll(pageable)
                 .map(CompraResponse::convert);
     }
 
@@ -58,35 +55,36 @@ public class CompraService {
                 double sum_values = 0.0;
 
                 Compra compra = new Compra();
+                compra.setId(UUID.randomUUID().toString());
                 compra.setData_compra(compraRequest.getData());
                 compra.setCpf(compraRequest.getCpf());
                 compra.setStatus("EM PROCESSAMENTO");
                 compra.setValor_total_compra(0.0);
-                compraRepository.save(compra);
+//                compraRepository.save(compra);
                 for (Map.Entry<String,Integer> entry : compraRequest.getProdutos().entrySet()){
                     Produto produto = ProdutoService.getProduct(entry, kafkaDTO.getToken());
-                    CompraProdutoKey key = new CompraProdutoKey();
-                    key.setIdCompra(compra.getId());
-                    key.setIdProduto(produto.getId());
+//                    CompraProdutoKey key = new CompraProdutoKey();
+//                    key.setIdCompra(compra.getId());
+//                    key.setIdProduto(produto.getCodigo());
 
-                    CompraProduto compraProduto = new CompraProduto();
-                    compraProduto.setCompra(compra);
-                    compraProduto.setProduto(produto);
-                    compraProduto.setQuantidade(entry.getValue());
-                    compraProduto.setCompraProdutoKey(key);
-
-                    compraProdutoRepository.save(compraProduto);
-                    compra.getProdutos().add(compraProduto);
-
+//                    CompraProduto compraProduto = new CompraProduto();
+//                    compraProduto.setCompra(compra);
+//                    compraProduto.setProduto(produto);
+//                    compraProduto.setQuantidade(entry.getValue());
+//                    compraProduto.setCompraProdutoKey(key);
+//                    compraProdutoRepository.save(compraProduto);
+                    ProdutoComprado produtoComprado = new ProdutoComprado(produto.getCodigo(),produto.getNome(),produto.getPreco(),compraRequest.getProdutos().get(entry.getKey()));
+                    compra.getProdutos().add(produtoComprado);
                     sum_values += produto.getPreco()*entry.getValue();
 
                 }
 
+                compra.setId(UUID.randomUUID().toString());
                 compra.setValor_total_compra(sum_values);
 
+                sendKafkaMessage.sendMessage(kafkaDTO);
                 compraRepository.save(compra);
 
-                sendKafkaMessage.sendMessage(kafkaDTO);
 
             }else{
                 throw new BadRequest("Codigo do produto invalido.");
