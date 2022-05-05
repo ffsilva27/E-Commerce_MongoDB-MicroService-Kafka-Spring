@@ -31,10 +31,7 @@ public class ProdutoController {
 
     @PostMapping
     //@Authenticate
-    public ResponseEntity<ProdutoResponse> createProduct(@RequestBody @Valid ProdutoRequest produtoRequest, BindingResult bindingResult) throws BadRequest {
-        if(bindingResult.hasErrors()){
-            throw new BadRequest("O campo " + bindingResult.getFieldError().getField() + " deve ser preenchido.");
-        }
+    public ResponseEntity<ProdutoResponse> createProduct(@RequestBody @Valid ProdutoRequest produtoRequest) {
         return ResponseEntity.ok(produtoService.createProduct(produtoRequest));
     }
 
@@ -47,7 +44,7 @@ public class ProdutoController {
     @PatchMapping
     //@Authenticate
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateQuantity(@RequestBody Map<String, Integer> produtos) throws BadRequest, NotFound {
+    public void updateQuantity(@RequestBody Map.Entry<String, Integer> produtos) throws BadRequest, NotFound {
         produtoService.updateQuantity(produtos);
     }
 }

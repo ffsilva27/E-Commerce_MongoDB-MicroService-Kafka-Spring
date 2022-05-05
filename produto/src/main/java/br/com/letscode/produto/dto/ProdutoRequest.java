@@ -8,10 +8,10 @@ import javax.validation.constraints.NotNull;
 
 @Getter @Setter
 public class ProdutoRequest {
-   @NotEmpty
+   @NotEmpty(message = "Campo nome é de preenchimento obrigatório.")
     private String nome;
-    @NotNull
+    @NotNull(message = "Campo preço é de preenchimento obrigatório.")
     private Double preco;
-    @NotNull
+    @NotNull(message = "Campo quantidade é de preenchimento obrigatório.")
     private Integer qtdeDisponivel;
 }

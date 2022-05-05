@@ -79,7 +79,7 @@ public class CompraService {
 
                 }
 
-                compra.setId(UUID.randomUUID().toString());
+                //compra.setId(UUID.randomUUID().toString());
                 compra.setValor_total_compra(sum_values);
 
                 sendKafkaMessage.sendMessage(kafkaDTO);
