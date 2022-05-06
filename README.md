@@ -53,13 +53,13 @@ Todas as rotas devem possuir autenticação, sendo assim para acessa-las o usuá
 
 As informações para a realização do cadastro do usuário em sistema são: nome de usuário, senha e nível de autoridade.
 
-##### Método HTTP para criação do produto/JSON
+##### Método HTTP para criar um usuário/JSON
  - (POST) `localhost:8083/user`
 ```json
 {
   "userName": "user04",
   "password": "user04",
-  "authority": ["CLIENTE", "ADMIN"],
+  "roles": ["CLIENTE", "ADMIN"],
   "enabled": true
 }
 ```
@@ -71,11 +71,11 @@ As informações para a realização do cadastro do usuário em sistema são: no
 
 #### :chart: Login
 
-##### Método HTTP para criação do produto/JSON
+##### Método HTTP para fazer login/JSON
  - (POST) `localhost:8083/user/login`
 ```json
 {
-  "userName": "user04",
+  "username": "user04",
   "password": "user04"
 }
 ```
@@ -91,7 +91,7 @@ As informações para a realização do cadastro do usuário em sistema são: no
 #### :chart: Criar produtos
 O produto deve conter os seguintes dados: código do produto (implementado lógica para geração pela aplicação), preço e quantidade disponível.
 
-##### Método HTTP para criação do produto/JSON
+##### Método HTTP para criar um produto/JSON
  - (POST) `localhost:8081/produto`
 ```json
 {
@@ -166,7 +166,7 @@ Obs.: Para obtenção das informações de um produtos específico deve-se infor
 A aplicação possibilita que os produtos cadastrados possam ser adiquiridos, sendo os elementos mínimos para o correto funcionamento
 a inserção dos seguintes dados: data da compra, cpf do cliente, código do produto e quantidade.
 
-##### Método HTTP para criação do produto/JSON
+##### Método HTTP para criar uma compra/JSON
  - (POST) `localhost:8082/compra`
 
 ```json
