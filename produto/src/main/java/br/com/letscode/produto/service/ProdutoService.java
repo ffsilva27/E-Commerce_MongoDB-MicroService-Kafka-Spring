@@ -29,7 +29,9 @@ public class ProdutoService {
         Example example = Example.of(produto, matcher);
         Pageable pageable = PageRequest.of(0,5);
         List<Produto> produtoList = produtoRepository.findAll(example);
-        List<ProdutoResponse> produtoResponses = produtoList.stream().map(p -> new ProdutoResponse(p)).collect(Collectors.toList());
+        List<ProdutoResponse> produtoResponses = produtoList.stream()
+                .map(p -> new ProdutoResponse(p))
+                .collect(Collectors.toList());
         Page<ProdutoResponse> retorno = new PageImpl<ProdutoResponse>(produtoResponses, pageable, produtoResponses.size());
         return retorno;
     }

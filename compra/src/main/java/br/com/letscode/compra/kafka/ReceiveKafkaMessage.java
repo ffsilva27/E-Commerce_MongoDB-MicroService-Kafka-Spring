@@ -32,13 +32,9 @@ public class ReceiveKafkaMessage {
         for (Map.Entry<String, Integer> entry : compraRequest.getProdutos().entrySet()) {
             Produto produto = ProdutoService.getProduct(entry, kafkaDTO.getToken());
             if (produto.getQtde_disponivel() < entry.getValue()) {
-                //compraProdutoRepository.deleteAll(compra.getProdutos());
-                //compra.setStatus("CANCELADO-ESTOQUE-INSUFICIENTE");
                 compra.getProdutos().get(count).setStatusProduto("Estoque insuficiente");
             } else {
-                //compra.setStatus("CONCLUIDO");
                 compra.getProdutos().get(count).setStatusProduto("Possui estoque suficiente");
-                //ProdutoService.updateQuantity(entry, kafkaDTO.getToken());
             }
             count++;
         }

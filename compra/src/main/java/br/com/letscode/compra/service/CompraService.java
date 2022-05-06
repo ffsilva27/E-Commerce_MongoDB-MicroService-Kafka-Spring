@@ -7,15 +7,14 @@ import br.com.letscode.compra.exceptions.BadRequest;
 import br.com.letscode.compra.kafka.SendKafkaMessage;
 import br.com.letscode.compra.model.*;
 import br.com.letscode.compra.repository.CompraRepository;
-import br.com.letscode.compra.repository.specification.CompraSpecification;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -23,18 +22,23 @@ import java.util.UUID;
 public class CompraService {
 
     private final CompraRepository compraRepository;
-//    private final CompraProdutoRepository compraProdutoRepository;
     private final SendKafkaMessage sendKafkaMessage;
     private final ProdutoService produtoService;
 
-    public Page<CompraResponse> listByCPF(String cpf, Pageable pageable) {
-        Specification<Compra> specification = Specification.where(null);
-        if (cpf != null) {
-            specification = Specification.where(CompraSpecification.filterOneByCpf(cpf));
-        }
-        return compraRepository
-                .findAll(pageable)
-                .map(CompraResponse::convert);
+    public Page<CompraResponse> listCompra(Compra compra) {
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnorePaths("produtos")
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+        Example example = Example.of(compra, matcher);
+        Pageable pageable = PageRequest.of(0,5);
+        List<Compra> compraList = compraRepository.findAll(example);
+        List<CompraResponse> compraResponses = compraList.stream()
+                .map(x -> CompraResponse.convert(x))
+                .collect(Collectors.toList());
+        Page<CompraResponse> retorno = new PageImpl<CompraResponse>(compraResponses, pageable, compraResponses.size());
+        return retorno;
     }
 
     public boolean validaProduto(CompraRequest compraRequest, String token) throws BadRequest {
