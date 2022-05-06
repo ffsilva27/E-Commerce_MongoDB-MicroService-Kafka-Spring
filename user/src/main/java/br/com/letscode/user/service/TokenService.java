@@ -43,6 +43,9 @@ public class TokenService {
     }
 
     public boolean isTokenValid(String token) {
+        if (token == null) {
+            return false;
+        }
         try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             return true;

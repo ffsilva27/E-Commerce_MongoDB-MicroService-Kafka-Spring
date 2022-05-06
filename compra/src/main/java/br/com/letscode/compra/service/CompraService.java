@@ -60,26 +60,14 @@ public class CompraService {
                 compra.setCpf(compraRequest.getCpf());
                 compra.setStatus("EM PROCESSAMENTO");
                 compra.setValor_total_compra(0.0);
-//                compraRepository.save(compra);
                 for (Map.Entry<String,Integer> entry : compraRequest.getProdutos().entrySet()){
                     Produto produto = ProdutoService.getProduct(entry, kafkaDTO.getToken());
-//                    CompraProdutoKey key = new CompraProdutoKey();
-//                    key.setIdCompra(compra.getId());
-//                    key.setIdProduto(produto.getCodigo());
-
-//                    CompraProduto compraProduto = new CompraProduto();
-//                    compraProduto.setCompra(compra);
-//                    compraProduto.setProduto(produto);
-//                    compraProduto.setQuantidade(entry.getValue());
-//                    compraProduto.setCompraProdutoKey(key);
-//                    compraProdutoRepository.save(compraProduto);
                     ProdutoComprado produtoComprado = new ProdutoComprado(produto.getCodigo(),produto.getNome(),produto.getPreco(),compraRequest.getProdutos().get(entry.getKey()));
                     compra.getProdutos().add(produtoComprado);
                     sum_values += produto.getPreco()*entry.getValue();
 
                 }
 
-                //compra.setId(UUID.randomUUID().toString());
                 compra.setValor_total_compra(sum_values);
 
                 sendKafkaMessage.sendMessage(kafkaDTO);

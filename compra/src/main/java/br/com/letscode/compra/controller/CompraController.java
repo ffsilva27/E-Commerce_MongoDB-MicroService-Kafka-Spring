@@ -31,7 +31,7 @@ public class CompraController {
 
 
     @GetMapping()
-//    @Authenticate
+    @Authenticate
     public ResponseEntity<Object> listCompras(
             @RequestParam(name = "cpf", required = false) String cpf,
             Pageable pageable
@@ -48,7 +48,7 @@ public class CompraController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.OK)
-//    @Authenticate
+    @Authenticate
     public void createProduct(@RequestBody @Valid CompraRequest compraRequest, BindingResult bindingResult, HttpServletRequest request) throws BadRequest {
         if(bindingResult.hasErrors()){
             throw new BadRequest("O campo " + bindingResult.getFieldError().getField() + " deve ser preenchido.");

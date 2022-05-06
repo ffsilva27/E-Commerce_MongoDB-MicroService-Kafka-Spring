@@ -18,22 +18,11 @@ import java.util.List;
 public class Compra {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-
-//    @Column(name = "data_compra")
     private LocalDateTime data_compra;
-
-//    @Column(name = "cpf_cliente")
     private String cpf;
-
-//    @Column(name = "valor_total_compra")
     private Double valor_total_compra;
-
-//    @Column(name = "status")
     private String status;
-
-//    @OneToMany(mappedBy = "compra")
     private List<ProdutoComprado> produtos =  new ArrayList<>();
 
 }
