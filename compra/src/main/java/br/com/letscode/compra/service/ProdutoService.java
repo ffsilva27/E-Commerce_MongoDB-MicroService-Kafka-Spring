@@ -27,7 +27,7 @@ public class ProdutoService {
         return produtoMono;
     }
 
-    public static void updateQuantity(Map<String, Integer> produtos, String token) {
+    public static void updateQuantity(Map.Entry<String, Integer> produtos, String token) {
         WebClient client = WebClient.create("http://localhost:8081");
         client
                 .patch()

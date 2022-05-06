@@ -15,5 +15,5 @@ public class UserRequest {
     @NotNull
     private Boolean enabled;
     @NotNull
-    private List<String> authority;
+    private List<String> roles;
 }

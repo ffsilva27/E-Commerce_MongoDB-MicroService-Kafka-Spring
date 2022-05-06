@@ -24,27 +24,27 @@ public class ProdutoController {
     ProdutoService produtoService;
 
     @GetMapping
-    //@Authenticate
+    @Authenticate
     public ResponseEntity<Object> getAll(Produto produto) throws NotFound {
         return ResponseEntity.ok(produtoService.listByCodigo(produto));
     }
 
     @PostMapping
-    //@Authenticate
+    @Authenticate
     public ResponseEntity<ProdutoResponse> createProduct(@RequestBody @Valid ProdutoRequest produtoRequest) {
         return ResponseEntity.ok(produtoService.createProduct(produtoRequest));
     }
 
     @GetMapping("/{id}")
-   // @Authenticate
+    @Authenticate
     public Produto getProduct(@PathVariable String id) throws NotFound {
         return produtoService.findByCodigo(id).orElseThrow(()->new NotFound("Produto não encontrado."));
     }
 
     @PatchMapping
-    //@Authenticate
+    @Authenticate
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateQuantity(@RequestBody Map<String, Integer> produtos) throws BadRequest, NotFound {
+    public void updateQuantity(@RequestBody Map.Entry<String, Integer> produtos) throws BadRequest, NotFound {
         produtoService.updateQuantity(produtos);
     }
 }

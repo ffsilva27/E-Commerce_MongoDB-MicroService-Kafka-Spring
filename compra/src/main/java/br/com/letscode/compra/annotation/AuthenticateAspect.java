@@ -4,7 +4,6 @@ import br.com.letscode.compra.dto.UserResponse;
 import br.com.letscode.compra.exceptions.NotFound;
 import br.com.letscode.compra.exceptions.Unauthorized;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.http.HttpMethod;

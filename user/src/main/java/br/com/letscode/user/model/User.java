@@ -1,29 +1,29 @@
 package br.com.letscode.user.model;
 
 import br.com.letscode.user.dto.UserRequest;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-@Entity(name = "users")
 @Getter @Setter
-public class User {
+@NoArgsConstructor
+@AllArgsConstructor
+@Document(collection = "user")
+public class User implements UserDetails {
 
     @Id
-    @Column(name = "username")
     private String userName;
-
-    @Column(name = "password")
     private String password;
-
-    @Column(name = "enabled")
     private Boolean enabled;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<Authority> authorities = new ArrayList<>();
+    private List<Authority> roles;
 
     public static User convert(UserRequest dto) {
         User user = new User();
@@ -31,5 +31,35 @@ public class User {
         user.setPassword(dto.getPassword());
         user.setUserName(dto.getUserName());
         return user;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.userName;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 }

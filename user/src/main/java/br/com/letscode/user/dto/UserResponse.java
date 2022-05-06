@@ -1,6 +1,5 @@
 package br.com.letscode.user.dto;
 
-import br.com.letscode.user.model.Authority;
 import br.com.letscode.user.model.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,14 +14,12 @@ public class UserResponse {
 
     public static UserResponse convert(User user) {
         UserResponse userResponse = new UserResponse();
-        userResponse.setUsername(user.getUserName());
-        userResponse.setRoles(
-                user.getAuthorities()
-                    .stream()
-                    .map(authority -> authority.getAuthorityKey().getAuthority())
-                    .collect(Collectors.toList())
+        userResponse.setUsername(user.getUsername());
+        userResponse.setRoles(user.getRoles()
+                .stream()
+                .map(authority -> authority.getAuthorityKey())
+                .collect(Collectors.toList())
         );
-
         return userResponse;
     }
 }

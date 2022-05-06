@@ -24,12 +24,14 @@ public class ProdutoService {
 
     public Page<ProdutoResponse> listByCodigo(Produto produto) {
         ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreCase()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+                .withStringMatcher(ExampleMatcher.StringMatcher.EXACT);
 
         Example example = Example.of(produto, matcher);
         Pageable pageable = PageRequest.of(0,5);
         List<Produto> produtoList = produtoRepository.findAll(example);
-        List<ProdutoResponse> produtoResponses = produtoList.stream().map(p -> new ProdutoResponse(p)).collect(Collectors.toList());
+        List<ProdutoResponse> produtoResponses = produtoList.stream()
+                .map(p -> new ProdutoResponse(p))
+                .collect(Collectors.toList());
         Page<ProdutoResponse> retorno = new PageImpl<ProdutoResponse>(produtoResponses, pageable, produtoResponses.size());
         return retorno;
     }
@@ -72,14 +74,12 @@ public class ProdutoService {
         return  prefixo + sufixo;
     }
 
-    public void updateQuantity(Map<String, Integer> produtos) throws BadRequest, NotFound {
-        for (Map.Entry<String, Integer> entry : produtos.entrySet()) {
-            Produto produto = produtoRepository.findByCodigo(entry.getKey()).orElseThrow(() -> new NotFound("Produto não encontrado"));
-            if(produto.getQtde_disponivel()< entry.getValue()){
-                throw new BadRequest("Qtde insuficiente. Não possuimos estoque suficiente do " + entry.getValue());
+    public void updateQuantity(Map.Entry<String, Integer> produtoRecebido) throws BadRequest, NotFound {
+            Produto produto = produtoRepository.findByCodigo(produtoRecebido.getKey()).orElseThrow(() -> new NotFound("Produto não encontrado"));
+            if(produto.getQtde_disponivel()< produtoRecebido.getValue()) {
+                throw new BadRequest("Qtde insuficiente. Não possuimos estoque suficiente do " + produtoRecebido.getValue());
             }
-            produto.setQtde_disponivel(produto.getQtde_disponivel() - entry.getValue());
+            produto.setQtde_disponivel(produto.getQtde_disponivel() - produtoRecebido.getValue());
             produtoRepository.save(produto);
         }
     }
-}
