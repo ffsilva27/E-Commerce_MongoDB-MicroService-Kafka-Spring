@@ -29,7 +29,7 @@ public class CompraService {
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withIgnorePaths("produtos")
                 .withIgnoreCase()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+                .withStringMatcher(ExampleMatcher.StringMatcher.EXACT);
 
         Example example = Example.of(compra, matcher);
         Pageable pageable = PageRequest.of(0,5);

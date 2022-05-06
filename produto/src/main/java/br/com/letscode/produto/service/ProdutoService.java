@@ -24,7 +24,7 @@ public class ProdutoService {
 
     public Page<ProdutoResponse> listByCodigo(Produto produto) {
         ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreCase()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+                .withStringMatcher(ExampleMatcher.StringMatcher.EXACT);
 
         Example example = Example.of(produto, matcher);
         Pageable pageable = PageRequest.of(0,5);
